@@ -26,31 +26,31 @@ interface IClipboardClassObject {
 
 const textFieldStyles = (props: ITextFieldStyleProps): Partial < ITextFieldStyles > => ({
     fieldGroup: {
-        border: props.focused ? "1px solid black !important" : "1px solid transparent !important",
+        border: props.focused ? '1px solid black !important' : '1px solid transparent !important',
         backgroundColor: 'transparent !important',
         height: '33px',
         selectors: {
-            ":after": {
-                border: "none"
+            ':after': {
+                border: 'none'
             },
-            ":hover": {
-                border: props.disabled ? "1px solid rgb(226, 226, 226) !important" : "1px solid black !important",
-                backgroundColor: props.disabled ? "rgb(226, 226, 226) !important" : 'transparent'
+            ':hover': {
+                border: props.disabled ? '1px solid rgb(226, 226, 226) !important' : '1px solid black !important',
+                backgroundColor: props.disabled ? 'rgb(226, 226, 226) !important' : 'transparent'
             }
         }
     },
     field: {
         height: '33px',
         fontWeight: props.focused ? 400 : 600,
-        fontFamily: "SegoeUI,'Segoe UI'",
+        fontFamily: 'SegoeUI,\'Segoe UI\'',
         color: props.disabled ? 'rgb(51, 51, 51) !important' : 'black !important',
         backgroundColor: 'transparent !important',
         selectors: {
-            ":hover": {
+            ':hover': {
                 fontWeight: props.disabled ? 600 : 400,
             },
             '::placeholder' :{
-                fontFamily: "SegoeUI,'Segoe UI'",
+                fontFamily: 'SegoeUI,\'Segoe UI\'',
                 fontSize: '14px',
                 fontWeight: 600,
                 color: 'black !important' 
@@ -124,12 +124,12 @@ export class Clipboard extends React.Component<IClipboardProps,IClipboardState> 
         this.state = { 
             currentText: this.props.textValue,
             overlayHidden: true,
-            iconBackground: "transparent"
+            iconBackground: 'transparent'
         };
     }
 
     public textfieldOnChane(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) : void{
-        let value = newValue || "";
+        const value = newValue || '';
         this.setState({
             currentText: value
         });
@@ -143,32 +143,32 @@ export class Clipboard extends React.Component<IClipboardProps,IClipboardState> 
     }
   
     public render(): JSX.Element {    
-      return (   
-        <div style={{display:'-webkit-box', alignItems: 'center',position:'relative'}}>
-            <div hidden={this.state.overlayHidden} className={classNames.textboxOverlay} id="text-overlay">Copied to clipboard!</div>
-            <TextField 
-                className={classNames.textbox} 
-                style={{paddingRight: '35px'}} 
-                styles={textFieldStyles}
-                value={this.state.currentText} 
-                onChange={this.textfieldOnChane.bind(this)}
-                placeholder={'---'}
-                type={this.props.isPassword ? 'password' : 'text'}
-                disabled={this.props.isDisabled}  
-                onFocus= {() => {this.setState({iconBackground:"rgb(226, 226, 226)"})}}
-                onBlur = {() => {this.setState({iconBackground:"transparent"})}}
-            />
-            <div 
-                className={classNames.iconWrapper} 
-                style={{backgroundColor: this.state.iconBackground}}
-                onClick={this.iconOnClick.bind(this)} 
-            >
-                <Icon 
-                    className={classNames.clipboardIcon} 
-                    iconName="Copy" 
+        return (   
+            <div style={{display:'-webkit-box', alignItems: 'center',position:'relative'}}>
+                <div hidden={this.state.overlayHidden} className={classNames.textboxOverlay} id="text-overlay">Copied to clipboard!</div>
+                <TextField 
+                    className={classNames.textbox} 
+                    style={{paddingRight: '35px'}} 
+                    styles={textFieldStyles}
+                    value={this.state.currentText} 
+                    onChange={this.textfieldOnChane.bind(this)}
+                    placeholder={'---'}
+                    type={this.props.isPassword ? 'password' : 'text'}
+                    disabled={this.props.isDisabled}  
+                    onFocus= {() => {this.setState({iconBackground:'rgb(226, 226, 226)'});}}
+                    onBlur = {() => {this.setState({iconBackground:'transparent'});}}
                 />
+                <div 
+                    className={classNames.iconWrapper} 
+                    style={{backgroundColor: this.state.iconBackground}}
+                    onClick={this.iconOnClick.bind(this)} 
+                >
+                    <Icon 
+                        className={classNames.clipboardIcon} 
+                        iconName="Copy" 
+                    />
+                </div>
             </div>
-        </div>
-      );
+        );
     }
 }
