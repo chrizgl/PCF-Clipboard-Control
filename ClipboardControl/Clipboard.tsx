@@ -1,21 +1,25 @@
 import * as React from 'react';
-import { TextField, ITextFieldStyleProps, ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
+// import { TextField, ITextFieldStyleProps, ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField';
+// import { Icon } from 'office-ui-fabric-react/lib/Icon';
+// import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 import * as copy from 'copy-to-clipboard';
-import { mergeStyleSets, FontSizes, FontWeights } from 'office-ui-fabric-react/lib/Styling';
+// import { mergeStyleSets, FontSizes, FontWeights } from 'office-ui-fabric-react/lib/Styling';
+
+// new imports:
+import { Icon } from '@fluentui/react';
+import { makeStyles, tokens, Button, FluentProvider, webLightTheme, Field, Input } from '@fluentui/react-components';
 
 export interface IClipboardProps {
     textValue: string;
     isPassword: boolean;
     isDisabled: boolean;
-    onChange: (text:string) => void;
+    onChange: (text: string) => void;
 }
 
 export interface IClipboardState {
     currentText: string;
     overlayHidden: boolean;
-    iconBackground : string;
+    iconBackground: string;
 }
 interface IClipboardClassObject {
     clipboardIcon: string;
@@ -24,66 +28,68 @@ interface IClipboardClassObject {
     textboxOverlay: string;
 }
 
-const textFieldStyles = (props: ITextFieldStyleProps): Partial < ITextFieldStyles > => ({
+/*
+const textFieldStyles = (props: ITextFieldStyleProps): Partial<ITextFieldStyles> => ({
     fieldGroup: {
         border: props.focused ? '1px solid black !important' : '1px solid transparent !important',
         backgroundColor: 'transparent !important',
         height: '33px',
         selectors: {
             ':after': {
-                border: 'none'
+                border: 'none',
             },
             ':hover': {
                 border: props.disabled ? '1px solid rgb(226, 226, 226) !important' : '1px solid black !important',
-                backgroundColor: props.disabled ? 'rgb(226, 226, 226) !important' : 'transparent'
-            }
-        }
+                backgroundColor: props.disabled ? 'rgb(226, 226, 226) !important' : 'transparent',
+            },
+        },
     },
     field: {
         height: '33px',
         fontWeight: props.focused ? 400 : 600,
-        fontFamily: 'SegoeUI,\'Segoe UI\'',
+        fontFamily: "SegoeUI,'Segoe UI'",
         color: props.disabled ? 'rgb(51, 51, 51) !important' : 'black !important',
         backgroundColor: 'transparent !important',
         selectors: {
             ':hover': {
                 fontWeight: props.disabled ? 600 : 400,
             },
-            '::placeholder' :{
-                fontFamily: 'SegoeUI,\'Segoe UI\'',
+            '::placeholder': {
+                fontFamily: "SegoeUI,'Segoe UI'",
                 fontSize: '14px',
                 fontWeight: 600,
-                color: 'black !important' 
+                color: 'black !important',
             },
-            'hover::placeholder' :{
-                fontWeight: 400
-            }
-        }
+            'hover::placeholder': {
+                fontWeight: 400,
+            },
+        },
     },
-    root:{
+    root: {
         backgroundColor: 'transparent !important',
         height: '35px',
     },
-    wrapper:{
+    wrapper: {
         backgroundColor: 'transparent !important',
         height: '35px',
-    }
+    },
 });
-
-const classNames: IClipboardClassObject = mergeStyleSets({
+*/
+/*
+{const classNames: IClipboardClassObject = mergeStyleSets({
     clipboardIcon: {
         color: '#666666',
-        userSelect: 'none'
+        userSelect: 'none',
     },
-    textbox:{
-        width: '100%', 
+    textbox: {
+        width: '100%',
         selectors: {
             ':hover + div': {
-                backgroundColor: 'rgb(226, 226, 226) !important'
-            }
-        }
+                backgroundColor: 'rgb(226, 226, 226) !important',
+            },
+        },
     },
-    textboxOverlay:{
+    textboxOverlay: {
         position: 'absolute',
         width: '-webkit-fill-available',
         background: 'white',
@@ -97,9 +103,9 @@ const classNames: IClipboardClassObject = mergeStyleSets({
         fontFamily: 'SegoeUI',
         height: 'fit-content',
         color: 'black',
-        zIndex: 10
+        zIndex: 10,
     },
-    iconWrapper:{
+    iconWrapper: {
         height: '17px',
         top: '1px',
         display: 'inline-block',
@@ -107,68 +113,55 @@ const classNames: IClipboardClassObject = mergeStyleSets({
         position: 'relative',
         width: '21px',
         cursor: 'pointer',
-        padding: '7px', 
+        padding: '7px',
         textAlign: 'center',
         selectors: {
             ':hover': {
-                backgroundColor: 'rgb(226, 226, 226) !important'
-            }
-        }
-    }
-});
+                backgroundColor: 'rgb(226, 226, 226) !important',
+            },
+        },
+    },
+});}
+*/
 
-export class Clipboard extends React.Component<IClipboardProps,IClipboardState> { 
+export class Clipboard extends React.Component<IClipboardProps, IClipboardState> {
     constructor(props: IClipboardProps) {
         super(props);
-        initializeIcons();
-        this.state = { 
+        // initializeIcons();
+        this.state = {
             currentText: this.props.textValue,
             overlayHidden: true,
-            iconBackground: 'transparent'
+            iconBackground: 'transparent',
         };
     }
 
-    public textfieldOnChane(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) : void{
+    private useStyles = makeStyles({
+        myclassname: { backgroundColor: tokens.colorTransparentBackground },
+    });
+
+    public textfieldOnChane(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined): void {
         const value = newValue || '';
         this.setState({
-            currentText: value
+            currentText: value,
         });
         this.props.onChange(value);
     }
 
-    public iconOnClick(){
+    public iconOnClick() {
         copy(this.state.currentText);
-        this.setState({overlayHidden: false});
-        setTimeout(() => {this.setState({overlayHidden: true});}, 1000);
+        this.setState({ overlayHidden: false });
+        setTimeout(() => {
+            this.setState({ overlayHidden: true });
+        }, 1000);
     }
-  
-    public render(): JSX.Element {    
-        return (   
-            <div style={{display:'-webkit-box', alignItems: 'center',position:'relative'}}>
-                <div hidden={this.state.overlayHidden} className={classNames.textboxOverlay} id="text-overlay">Copied to clipboard!</div>
-                <TextField 
-                    className={classNames.textbox} 
-                    style={{paddingRight: '35px'}} 
-                    styles={textFieldStyles}
-                    value={this.state.currentText} 
-                    onChange={this.textfieldOnChane.bind(this)}
-                    placeholder={'---'}
-                    type={this.props.isPassword ? 'password' : 'text'}
-                    disabled={this.props.isDisabled}  
-                    onFocus= {() => {this.setState({iconBackground:'rgb(226, 226, 226)'});}}
-                    onBlur = {() => {this.setState({iconBackground:'transparent'});}}
-                />
-                <div 
-                    className={classNames.iconWrapper} 
-                    style={{backgroundColor: this.state.iconBackground}}
-                    onClick={this.iconOnClick.bind(this)} 
-                >
-                    <Icon 
-                        className={classNames.clipboardIcon} 
-                        iconName="Copy" 
-                    />
-                </div>
-            </div>
+
+    public render = (): React.JSX.Element => {
+        const classes = this.useStyles();
+        return (
+            <FluentProvider theme={webLightTheme}>
+                <Input className={classes.myclassname} />
+                <Button icon={<Icon iconName='Copy' onClick={this.iconOnClick.bind} defaultValue={'Hallo'} />}></Button>
+            </FluentProvider>
         );
-    }
+    };
 }
