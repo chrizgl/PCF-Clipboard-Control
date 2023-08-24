@@ -1,17 +1,24 @@
 import { IInputs, IOutputs } from './generated/ManifestTypes';
 // import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
-import { Clipboard, IClipboardProps } from './Clipboard';
+import ClipboardControlApp, { IClipboardProps } from './Clipboard';
 
 // new imports:
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 
 export class ClipboardControl implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-    private _root: Root;
-    private _value: string;
     private _notifyOutputChanged: () => void;
-    private _Clipboard: Clipboard;
+    private _root: Root;
+    private _props: IClipboardProps = {
+        input: '',
+        isPassword: false,
+        isDisabled: false,
+        onInputChange: this.notifyChange.bind(this),
+    };
+    private _inputValue: string;
+
+    constructor() {}
 
     public init(
         context: ComponentFramework.Context<IInputs>,
@@ -19,42 +26,26 @@ export class ClipboardControl implements ComponentFramework.StandardControl<IInp
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement,
     ) {
-        const textValue = context.parameters.textField.raw || '';
-        const isSecure = context.parameters.isSecure.raw == 'hide';
-        const props: IClipboardProps = {
-            textValue: textValue,
-            isPassword: isSecure,
-            isDisabled: context.mode.isControlDisabled,
-            onChange: (text) => {
-                this._value = text;
-                this._notifyOutputChanged();
-            },
-        };
-        this._Clipboard = new Clipboard(props);
-        this._root = createRoot(container);
-
+        this._root = createRoot(container!);
         this._notifyOutputChanged = notifyOutputChanged;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        const textValue = context.parameters.textField.raw || '';
-        const isSecure = context.parameters.isSecure.raw == 'hide';
+        this._props.input = context.parameters.input.raw ?? '';
+        this._props.isPassword = context.parameters.isSecure.raw == 'hide';
+        this._props.isDisabled = context.mode.isControlDisabled;
 
-        const props: IClipboardProps = {
-            textValue: textValue,
-            isPassword: isSecure,
-            isDisabled: context.mode.isControlDisabled,
-            onChange: (text) => {
-                this._value = text;
-                this._notifyOutputChanged();
-            },
-        };
-        this._root.render(createElement(this._Clipboard.render, props));
+        this._root.render(createElement(ClipboardControlApp, this._props));
+    }
+
+    private notifyChange(newinputvalue: string) {
+        this._inputValue = newinputvalue;
+        this._notifyOutputChanged();
     }
 
     public getOutputs(): IOutputs {
         return {
-            textField: this._value,
+            input: this._inputValue,
         };
     }
 
