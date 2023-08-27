@@ -18,7 +18,8 @@
     "@types/react": "^16.14.46",
     "copy-to-clipboard": "^3.3.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-useanimations": "^2.10.0"
   },
   "devDependencies": {
     "@microsoft/eslint-plugin-power-apps": "^0.2.11",
