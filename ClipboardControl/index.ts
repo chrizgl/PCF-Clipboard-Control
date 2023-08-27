@@ -2,19 +2,12 @@ import { IInputs, IOutputs } from './generated/ManifestTypes';
 import ClipboardControlApp, { IClipboardProps } from './Clipboard';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import { InputProps } from '@fluentui/react-components';
-import { text } from 'stream/consumers';
 
 export class ClipboardControl implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
     private _root: Root;
-    private _props: IClipboardProps = {
-        input: '',
-        isPassword: false,
-        isDisabled: false,
-        onInputChange: this.notifyChange,
-    };
     private _inputValue: string;
+    private _isReadOnly: boolean;
 
     constructor() {}
 
@@ -38,7 +31,7 @@ export class ClipboardControl implements ComponentFramework.StandardControl<IInp
             isDisabled: isDisabled,
             onInputChange: (text) => {
                 this._inputValue = text;
-                this._notifyOutputChanged();
+                this.onChange();
             },
         };
         this._root.render(createElement(ClipboardControlApp, props));
@@ -54,11 +47,7 @@ export class ClipboardControl implements ComponentFramework.StandardControl<IInp
         this._root.unmount();
     }
 
-    /*******************/
-    /*PRIVATE FUNCTIONS*/
-    /*******************/
-    private notifyChange() {
-        this._inputValue = this._props.input;
+    private onChange = () => {
         this._notifyOutputChanged();
-    }
+    };
 }
