@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="chrizgl" constructor="ClipboardControl" version="2.0.0" display-name-key="Clipboard Control" description-key="Control that adds a copy to cliboard button to a text field." control-type="standard">
+  <control namespace="chrizgl" constructor="ClipboardControl" version="3.0.0" display-name-key="Clipboard Control" description-key="Control that adds a copy to cliboard button to a text field." control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="input" display-name-key="Text Field" description-key="Text field" of-type-group="strings" usage="bound" required="true" />
     <property name="isSecure" display-name-key="Show/hide text input" description-key="This option allows you to show all characters in the textbox or replace them with * sign" of-type="Enum" usage="input" required="true" default-value="show">
