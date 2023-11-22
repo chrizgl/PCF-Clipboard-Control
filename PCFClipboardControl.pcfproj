@@ -11,6 +11,7 @@
     <Name>PCFClipboardControl</Name>
     <ProjectGuid>092235ac-a620-4d5e-b62f-72f0892448b1</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+
   </PropertyGroup>
 
   <PropertyGroup>

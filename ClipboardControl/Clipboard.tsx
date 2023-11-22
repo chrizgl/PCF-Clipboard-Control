@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as copy from 'copy-to-clipboard';
-import { Checkmark32Regular, Checkmark32Filled, Copy32Regular, CheckboxChecked24Regular } from '@fluentui/react-icons';
+import { Checkmark32Filled, Copy32Regular } from '@fluentui/react-icons';
 import {
     makeStyles,
     mergeClasses,
@@ -88,7 +88,7 @@ const useStyles = makeStyles({
         paddingBottom: '0px',
     },
     overflow: {
-        color: 'forestgreen',
+        color: '#000276',
         scale: 1.5,
     },
     icon: {
@@ -121,7 +121,7 @@ const ClipboardControlApp = (props: IClipboardProps): JSX.Element => {
 
     const iconOnClick = () => {
         copy(inputValue);
-        setState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setState((state) => ({ ...state, overlayHidden: false, iconBackground: 'blue' }));
         setTimeout(() => {
             setState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
