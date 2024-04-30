@@ -1,52 +1,49 @@
-import {IInputs, IOutputs} from './generated/ManifestTypes';
+import { IInputs, IOutputs } from './generated/ManifestTypes';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Clipboard, IClipboardProps } from './Clipboard';
 
 export class ClipboardControl implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-
     private _container: HTMLDivElement;
 
     private _value: string;
     private _notifyOutputChanged: () => void;
 
-    public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
-    {
+    public init(
+        context: ComponentFramework.Context<IInputs>,
+        notifyOutputChanged: () => void,
+        state: ComponentFramework.Dictionary,
+        container: HTMLDivElement,
+    ) {
         this._container = container;
 
         this._notifyOutputChanged = notifyOutputChanged;
     }
 
-    public updateView(context: ComponentFramework.Context<IInputs>): void
-    {
+    public updateView(context: ComponentFramework.Context<IInputs>): void {
         const textValue = context.parameters.textField.raw || '';
-        const isSecure = context.parameters.isSecure.raw == 'hide';
+        const isSecure = context.parameters.isSecure.raw === 'hide';
 
-        const props: IClipboardProps = {	
+        const props: IClipboardProps = {
             textValue: textValue,
             isPassword: isSecure,
             isDisabled: context.mode.isControlDisabled,
-            onChange: text => {
+            onChange: (text) => {
                 this._value = text;
                 this._notifyOutputChanged();
-            }
+            },
         };
 
-        ReactDOM.render(
-            React.createElement(Clipboard, props),
-            this._container
-        );
+        ReactDOM.render(React.createElement(Clipboard, props), this._container);
     }
 
-    public getOutputs(): IOutputs
-    {
+    public getOutputs(): IOutputs {
         return {
-            textField: this._value
+            textField: this._value,
         };
     }
 
-    public destroy(): void
-    {
+    public destroy(): void {
         ReactDOM.unmountComponentAtNode(this._container);
     }
 }

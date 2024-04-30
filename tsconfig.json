@@ -2,5 +2,10 @@
     "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
     "compilerOptions": {
         "typeRoots": ["node_modules/@types"],
+        "module": "ES2015",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "target": "ES2015",
+        "allowSyntheticDefaultImports": true
     }
 }
